@@ -29,7 +29,7 @@ namespace Patreon.Net
         /// <summary>
         /// The version of the Patreon.Net library, such as "0.9.0".
         /// </summary>
-        public static string Version { get; } = typeof(PatreonClient).Assembly.GetName().Version.ToString(3) ?? "Unknown";
+        public static string Version { get; } = typeof(PatreonClient).Assembly.GetName().Version?.ToString(3) ?? "Unknown";
 
         /// <summary>
         /// Creates a new <see cref="PatreonClient"/> with an unknown token expiration date.
@@ -103,7 +103,7 @@ namespace Patreon.Net
             return false;
         }
 
-        internal async Task<T> GetAsync<T>(string requestUri, bool isRetry = false) where T : class
+        internal async Task<T?> GetAsync<T>(string requestUri, bool isRetry = false) where T : class
         {
             if(!isRetry && DateTimeOffset.UtcNow >= oAuthTokenExpirationDate && !string.IsNullOrEmpty(oAuthToken.RefreshToken))
             {
@@ -123,7 +123,7 @@ namespace Patreon.Net
                     string content = await httpContent.ReadAsStringAsync().ConfigureAwait(false);
                     if (content != null && content.Length > 0)
                     {
-                        if (JsonPostprocessor.Process(JObject.Parse(content), out JToken dataToken))
+                        if (JsonPostprocessor.Process(JObject.Parse(content), out JToken? dataToken))
                             return dataToken.ToObject<T>(jsonSerializer);
                     }
                 }
@@ -214,7 +214,7 @@ namespace Patreon.Net
         /// <param name="includes">The desired resources to be included on the <see cref="Campaign"/> objects in the returned array.</param>
         /// <returns>A resource array of campaigns, or <see langword="null"/> if none is found.</returns>
         /// <exception cref="PatreonApiException"/>
-        public async Task<PatreonResourceArray<Campaign, CampaignRelationships>> GetCampaignsAsync(Includes includes = Includes.None)
+        public async Task<PatreonResourceArray<Campaign, CampaignRelationships>?> GetCampaignsAsync(Includes includes = Includes.None)
         {
             string endpoint = Endpoints.Campaigns.GetCampaigns(includes);
             var array = await GetAsync<PatreonResourceArray<Campaign, CampaignRelationships>>(endpoint).ConfigureAwait(false);
@@ -230,7 +230,7 @@ namespace Patreon.Net
         /// <param name="includes">The desired resources to be included on the <see cref="Campaign"/> objects in the returned array.</param>
         /// <returns>A resource array of campaigns, or <see langword="null"/> if none is found.</returns>
         /// <exception cref="PatreonApiException"/>
-        public async Task<PatreonResourceArray<Campaign, CampaignRelationships>> GetCampaignsAsync(string nextPageCursor, Includes includes = Includes.None)
+        public async Task<PatreonResourceArray<Campaign, CampaignRelationships>?> GetCampaignsAsync(string nextPageCursor, Includes includes = Includes.None)
         {
             if (string.IsNullOrWhiteSpace(nextPageCursor))
                 throw new ArgumentException("Value cannot be null, empty or whitespace.", nameof(nextPageCursor));
@@ -248,7 +248,7 @@ namespace Patreon.Net
         /// <param name="includes">The desired resources to be included on the returned <see cref="Campaign"/>.</param>
         /// <returns>The campaign, or <see langword="null"/> if none is found.</returns>
         /// <exception cref="PatreonApiException"/>
-        public Task<Campaign> GetCampaignAsync(string campaignId, Includes includes = Includes.None)
+        public Task<Campaign?> GetCampaignAsync(string campaignId, Includes includes = Includes.None)
         {
             if (string.IsNullOrWhiteSpace(campaignId))
                 throw new ArgumentException("Value cannot be null, empty or whitespace.", nameof(campaignId));
@@ -263,7 +263,7 @@ namespace Patreon.Net
         /// <param name="includes">The desired resources to be included on the <see cref="Member"/> objects in the returned array.</param>
         /// <returns>A resource array of the first page of the campaign's members, or <see langword="null"/> if no campaign with the given <paramref name="campaignId"/> is found.</returns>
         /// <exception cref="PatreonApiException"/>
-        public async Task<PatreonResourceArray<Member, MemberRelationships>> GetCampaignMembersAsync(string campaignId, Includes includes = Includes.None)
+        public async Task<PatreonResourceArray<Member, MemberRelationships>?> GetCampaignMembersAsync(string campaignId, Includes includes = Includes.None)
         {
             if (string.IsNullOrWhiteSpace(campaignId))
                 throw new ArgumentException("Value cannot be null, empty or whitespace.", nameof(campaignId));
@@ -283,7 +283,7 @@ namespace Patreon.Net
         /// <param name="includes">The desired resources to be included on the <see cref="Member"/> objects in the returned array.</param>
         /// <returns>A resource array of members, or <see langword="null"/> if no campaign with the given <paramref name="campaignId"/> is found.</returns>
         /// <exception cref="PatreonApiException"/>
-        public async Task<PatreonResourceArray<Member, MemberRelationships>> GetCampaignMembersAsync(string campaignId, string nextPageCursor, Includes includes = Includes.None)
+        public async Task<PatreonResourceArray<Member, MemberRelationships>?> GetCampaignMembersAsync(string campaignId, string nextPageCursor, Includes includes = Includes.None)
         {
             if (string.IsNullOrWhiteSpace(campaignId))
                 throw new ArgumentException("Value cannot be null, empty or whitespace.", nameof(campaignId));
@@ -301,7 +301,7 @@ namespace Patreon.Net
         /// <param name="includes">The desired resources to be included on the returned <see cref="Member"/>.</param>
         /// <returns>A member resource, or <see langword="null"/> if none is found.</returns>
         /// <exception cref="PatreonApiException"/>
-        public Task<Member> GetMemberAsync(string memberId, Includes includes = Includes.None)
+        public Task<Member?> GetMemberAsync(string memberId, Includes includes = Includes.None)
         {
             if (string.IsNullOrWhiteSpace(memberId))
                 throw new ArgumentException("Value cannot be null, empty or whitespace.", nameof(memberId));

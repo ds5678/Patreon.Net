@@ -11,7 +11,7 @@ namespace Patreon.Net
         private readonly string _endpoint;
 
         private TResource[] resources;
-        private string nextPageCursor;
+        private string? nextPageCursor;
         private int currentIndex;
 
         internal PatreonResourceArrayAsyncEnumerator(PatreonResourceArray<TResource, TRelationships> initialArray, PatreonClient client, string endpoint)

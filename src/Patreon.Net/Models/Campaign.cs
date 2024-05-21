@@ -19,7 +19,7 @@ namespace Patreon.Net.Models
         /// The type of content the creator is creating, as in "vanity is creating creation_name". Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("creation_name")]
-        public string CreationName { get; set; }
+        public string? CreationName { get; set; }
         /// <summary>
         /// The ID of the external Discord server that is linked to this campaign. Can be <see langword="null"/>.
         /// </summary>
@@ -29,7 +29,7 @@ namespace Patreon.Net.Models
         /// The ID of the Google Analytics tracker that the creator wants metrics to be sent to. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("google_analytics_id")]
-        public string GoogleAnalyticsId { get; set; }
+        public string? GoogleAnalyticsId { get; set; }
         /// <summary>
         /// Whether this user has opted-in to RSS feeds.
         /// </summary>
@@ -44,12 +44,12 @@ namespace Patreon.Net.Models
         /// The URL for the campaign's profile image.
         /// </summary>
         [JsonProperty("image_small_url")]
-        public string ImageSmallUrl { get; set; }
+        public string ImageSmallUrl { get; set; } = "";
         /// <summary>
         /// The banner image URL for the campaign.
         /// </summary>
         [JsonProperty("image_url")]
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = "";
         /// <summary>
         /// Whether or not the campaign charges upfront. Can be <see langword="null"/>.
         /// </summary>
@@ -69,17 +69,17 @@ namespace Patreon.Net.Models
         /// Undocumented. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("main_video_embed")]
-        public string MainVideoEmbed { get; set; }
+        public string? MainVideoEmbed { get; set; }
         /// <summary>
         /// Undocumented. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("main_video_url")]
-        public string MainVideoUrl { get; set; }
+        public string? MainVideoUrl { get; set; }
         /// <summary>
         /// Pithy one-liner for this campaign, displayed on the creator page. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("one_liner")]
-        public string OneLiner { get; set; }
+        public string? OneLiner { get; set; }
         /// <summary>
         /// The number of patrons pledging to this creator.
         /// </summary>
@@ -89,12 +89,12 @@ namespace Patreon.Net.Models
         /// The thing which patrons are paying per, as in "vanity is making $1000 per <see cref="PayPerName"/>". Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("pay_per_name")]
-        public string PayPerName { get; set; }
+        public string? PayPerName { get; set; }
         /// <summary>
         /// Relative (to patreon.com) URL for the pledge checkout flow for this campaign.
         /// </summary>
         [JsonProperty("pledge_url")]
-        public string PledgeUrl { get; set; }
+        public string PledgeUrl { get; set; } = "";
         /// <summary>
         /// The time that the creator most recently published (made publicly visible) the campaign. Can be <see langword="null"/>.
         /// </summary>
@@ -104,12 +104,12 @@ namespace Patreon.Net.Models
         /// The URL for the RSS album artwork. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("rss_artwork_url")]
-        public string RssArtworkUrl { get; set; }
+        public string? RssArtworkUrl { get; set; }
         /// <summary>
         /// The title of the campaigns RSS feed.
         /// </summary>
         [JsonProperty("rss_feed_title")]
-        public string RssFeedTitle { get; set; }
+        public string RssFeedTitle { get; set; } = "";
         /// <summary>
         /// Whether or not the campaign's total earnings are shown publicly.
         /// </summary>
@@ -119,32 +119,32 @@ namespace Patreon.Net.Models
         /// The creator's summary of their campaign. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("summary")]
-        public string Summary { get; set; }
+        public string? Summary { get; set; }
         /// <summary>
         /// Undocumented. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("thanks_embed")]
-        public string ThanksEmbed { get; set; }
+        public string? ThanksEmbed { get; set; }
         /// <summary>
         /// Thank you message shown to patrons after they pledge to this campaign. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("thanks_msg")]
-        public string ThanksMsg { get; set; }
+        public string? ThanksMsg { get; set; }
         /// <summary>
         /// The URL for the video shown to patrons after they pledge to this campaign. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("thanks_video_url")]
-        public string ThanksVideoUrl { get; set; }
+        public string? ThanksVideoUrl { get; set; }
         /// <summary>
         /// The URL to access this campaign on patreon.com.
         /// </summary>
         [JsonProperty("url")]
-        public string Url { get; set; }
+        public string Url { get; set; } = "";
         /// <summary>
         /// The campaign's vanity. Can be <see langword="null"/>.
         /// </summary>
         [JsonProperty("vanity")]
-        public string Vanity { get; set; }
+        public string? Vanity { get; set; }
     }
 
     public class CampaignRelationships
@@ -153,7 +153,7 @@ namespace Patreon.Net.Models
         /// The campaign's benefits.
         /// </summary>
         [JsonProperty("benefits")]
-        public Benefit[] Benefits { get; set; }
+        public Benefit[] Benefits { get; set; } = [];
         /// <summary>
         /// Undocumented.
         /// </summary>

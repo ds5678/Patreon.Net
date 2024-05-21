@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Patreon.Net
 {
@@ -40,7 +41,7 @@ namespace Patreon.Net
 
         public static string Generate(Type resource, Includes includes)
         {
-            if (!resourceFieldsMap.TryGetValue(resource, out string fields))
+            if (!resourceFieldsMap.TryGetValue(resource, out string? fields))
                 throw new ArgumentException("Unsupported resource type: " + resource.Name, nameof(resource));
 
             StringBuilder stringBuilder = new StringBuilder(fields.Length);
@@ -58,7 +59,7 @@ namespace Patreon.Net
             return stringBuilder.ToString();
         }
 
-        private static string GenerateFields(Type type)
+        private static string GenerateFields([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type type)
         {
             var patreonResourceAttrib = type.GetCustomAttribute<Models.PatreonResourceAttribute>();
             if (patreonResourceAttrib == null)
@@ -79,10 +80,9 @@ namespace Patreon.Net
 
                 for (int j = 0; j < attributes.Length; j++)
                 {
-                    var attribute = attributes[j] as JsonPropertyAttribute;
-                    if(attribute != null)
+                    if (attributes[i] is JsonPropertyAttribute attribute)
                     {
-                        string propertyName = attribute.PropertyName;
+                        string? propertyName = attribute.PropertyName;
                         if (propertyName == "id" || propertyName == "type" || propertyName == "relationships")
                             continue;
 

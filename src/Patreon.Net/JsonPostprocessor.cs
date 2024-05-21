@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Patreon.Net
 {
@@ -8,16 +9,16 @@ namespace Patreon.Net
     /// </summary>
     internal static class JsonPostprocessor
     {
-        public static bool Process(JObject rootObject, out JToken dataToken)
+        public static bool Process(JObject rootObject, [NotNullWhen(true)] out JToken? dataToken)
         {
-            if (!rootObject.TryGetValue("data", out JToken rootDataToken))
+            if (!rootObject.TryGetValue("data", out JToken? rootDataToken))
             {
                 dataToken = null;
                 return false;
             }
 
-            JArray includedArray = null;
-            if (rootObject.TryGetValue("included", out JToken includedToken))
+            JArray? includedArray = null;
+            if (rootObject.TryGetValue("included", out JToken? includedToken))
                 includedArray = (JArray)includedToken;
 
             if (rootDataToken.Type == JTokenType.Array)
@@ -36,7 +37,7 @@ namespace Patreon.Net
             return true;
         }
 
-        private static void ProcessDataToken(JToken rootDataToken, JArray includedArray)
+        private static void ProcessDataToken(JToken rootDataToken, JArray? includedArray)
         {
             // Move everything in "attributes" up a level, into "data"
             var attributesToken = rootDataToken.SelectToken("attributes");
@@ -133,7 +134,7 @@ namespace Patreon.Net
                 if (includedIdToken == null)
                     continue;
 
-                if ((string)includedIdToken == relationshipId && (string)includedTypeToken == relationshipType)
+                if ((string?)includedIdToken == relationshipId && (string?)includedTypeToken == relationshipType)
                 {
                     var attributes = include.SelectToken("attributes");
                     if (attributes != null)
